@@ -190,6 +190,7 @@ sub ImportSet{
 			$problems{$pl} = \%problem_data; 
 			foreach my $pf(DirFiles "$prob_dir/"){
 				if($pf =~ /^test.*in$/ || $pf =~ /^test.*ans$/){
+					#Removed by espr1t to handle huge files
 					DosToUnix "$prob_dir/$pf";
 				}
 			}
@@ -262,6 +263,7 @@ sub SyncSet{
 			$problems{$pl} = \%problem_data; 
 			foreach my $pf(DirFiles "$prob_dir/"){
 				if($pf =~ /^test.*in$/ || $pf =~ /^test.*ans$/){
+					#Removed by espr1t to handle huge files
 					DosToUnix "$prob_dir/$pf";
 				}
 			}

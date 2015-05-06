@@ -30,7 +30,7 @@ sub PrintStatuses{
 		'problem(id)', 
 		'submit_time', 
 		'lang', 
-		'about', 
+#		'about', 
 		'status', 
 		'action']),);
 
@@ -54,7 +54,7 @@ sub PrintStatuses{
 			c.contest_id,
 			r.submit_time, 
 			r.language,
-			r.about,
+#			r.about,
 			r.status
 		FROM runs as r 
 		INNER JOIN users as u ON r.user_id = u.user_id
@@ -75,7 +75,7 @@ sub PrintStatuses{
 			$$run{'pletter'}." (".$$run{'problem_id'}.")",
 			$$run{'submit_time'},
 			$$run{'language'},
-			$$run{'about'},
+#			$$run{'about'},
 			$$run{'status'},
 			qq(<a href="status.pl?run_id=$run_id">view</a>)
 		])

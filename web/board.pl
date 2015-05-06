@@ -71,7 +71,6 @@ sub PrintBoard{
 		my $contest_start = $$run{'c_time'};
 		my $minutes = ($$run{'s_time'} - $contest_start) / 60;
 		last if($online && $minutes > $$run{'duration'});
-		next if($online && $minutes < 0);
 		next if($status eq 'waiting' || $status eq 'judging');
 		next if($$run{'u_hidden'});
 		my $user_id = $$run{'user_id'};
@@ -124,13 +123,15 @@ sub PrintBoard{
 		++$rank;
 		my $row = "";
 		$row .= td($rank)
-			
-.td($user_stat{$user_id}{'name'}." (".$user_id.")")
+			.td($user_stat{$user_id}{'name'})
 			.td($user_stat{$user_id}{'problems'})
 			.td(int($user_stat{$user_id}{'time'}));
 		foreach my $problem_id(@problem_order){
-			$row .= td(int($user_stat{$user_id}{$problem_id}{'first_ok'}).
-				" (".$user_stat{$user_id}{$problem_id}{'bad'}.")");
+			my $fok = defined($user_stat{$user_id}{$problem_id}{'first_ok'}) ? int($user_stat{$user_id}{$problem_id}{'first_ok'}) : "-";
+			my $bgc = '#CCCCCC';
+			$bgc = '#FFAAAA' if($user_stat{$user_id}{$problem_id}{'bad'} > 0);
+			$bgc = '#AAFFAA' if(defined($user_stat{$user_id}{$problem_id}{'first_ok'}));
+			$row .= td({-bgcolor=>$bgc}, $fok." (".$user_stat{$user_id}{$problem_id}{'bad'}.")");
 			
 		}
 		$row .= td($user_stat{$user_id}{'submits'});

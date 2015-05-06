@@ -140,6 +140,7 @@ sub Run{
 		
 		#copy input
 		System "cp '$set_in' '$run_in'";
+		System "chmod 755 '$run_in'";
 		
 		my $time = $$problem{'time_limit'};
 		++$time if $lang eq 'java';
@@ -166,7 +167,7 @@ sub Run{
 		
 		my $exit = System $megarun;
 		warn $exit;
-		if($exit == 35072){
+		if($exit == 35072 || $exit >> 8 == 124){
 			#killed - timeout
 			$status = 'tl1';
 		}
@@ -195,9 +196,9 @@ sub Run{
 			print "exit=$exit\n";
 			warn "checker exit=$exit\n";
 			$status = 'ok' if($exit == 0);
-			#bugfix - why 1 -> 256?
-			$status = 'wa' if($exit == 1 || $exit == 256);
-			$status = 'ie' if($exit != 0 && $exit != 1 && $exit != 256);
+			# 256 is error code 1, signal 0
+			$status = 'wa' if($exit == 256);
+			$status = 'ie' if($exit != 0 && $exit  != 256);
 		}
 		else{
 			my $exit = System "diff $run_out $set_ans";
